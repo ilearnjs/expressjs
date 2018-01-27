@@ -1,7 +1,13 @@
 {
   "name": "express_js",
   "version": "1.0.0",
+  "scripts": {
+    "start": "nodemon ./bin/www"
+  },
   "dependencies": {
     "express": "^4.16.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
   }
 }
