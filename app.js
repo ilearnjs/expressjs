@@ -16,6 +16,8 @@ app.use(expressWinston.logger({
 			filename: 'log'
 		})
 	],
+	meta: false,
+	msg: '{{req.url}} {{req.timestamp}}',
 }));
 
 app.use(express.json());
