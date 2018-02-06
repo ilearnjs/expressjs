@@ -24,4 +24,11 @@ app.use(express.json());
 app.use('/blogs', blogsRoute);
 app.use('*', indexRoute);
 
+app.use(function (err, req, res, next) {
+	res.status(500).send({
+		name: err.name,
+		message: err.message
+	})
+});
+
 module.exports = app;
