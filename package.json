@@ -2,8 +2,9 @@
   "name": "express_js",
   "version": "1.0.0",
   "scripts": {
-	"start": "nodemon server.js",
-	"start-mongo": "mongod --config mongod.conf"
+	"start-express": "nodemon server.js",
+	"start-mongo": "mongod --config mongod.conf",
+	"start-all": "npm run start-mongo & npm run start-express"
   },
   "dependencies": {
     "express": "^4.16.2",
