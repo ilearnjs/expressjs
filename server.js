@@ -6,8 +6,6 @@ const app = express();
 
 const postsRoute = require('./routes/posts');
 
-app.set('views', './views');
-
 app.use(expressWinston.logger({
 	transports: [
 		new winston.transports.File({
@@ -19,7 +17,7 @@ app.use(expressWinston.logger({
 }));
 
 app.use(express.json());
-app.use('/blogs', postsRoute);
+app.use('/posts', postsRoute);
 
 app.listen(3000, err => {
 	if(err) {

@@ -2,10 +2,10 @@ const express = require('express');
 const dataStorage = require('../data/data-storage');
 const router = express.Router();
 
-const blogsStorage = dataStorage.blogs;
+const postsStorage = dataStorage.posts;
 
 router.get('/', (req, res, next) => {
-	const blogs = blogsStorage
+	const posts = postsStorage
 		.read()
 		.then((data) => res.json(data))
 		.catch(err => next(err));
@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 
 router.get('/:id', (req, res, next) => {
 	const id = req.params.id;
-	const blog = blogsStorage
+	const post = postsStorage
 		.read(id)
 		.then((data) => res.json(data))
 		.catch(err => next(err));
@@ -21,7 +21,7 @@ router.get('/:id', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
 	const data = req.body;
-	blogsStorage
+	postsStorage
 		.create(data)
 		.then(() => res.sendStatus(200))
 		.catch(err => next(err));
@@ -30,14 +30,14 @@ router.post('/', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
 	const id = req.params.id;
 	const data = req.body;
-	blogsStorage
+	postsStorage
 		.update(id, data)
 		.then(() => res.sendStatus(200));
 });
 
 router.delete('/:id', (req, res, next) => {
 	const id = req.params.id;
-	blogsStorage
+	postsStorage
 		.delete(id)
 		.then(() => res.sendStatus(200))
 		.catch(err => next(err));

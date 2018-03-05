@@ -14,14 +14,14 @@ PostsStorage.prototype.read = function (id) {
 }
 
 PostsStorage.prototype.create = function (data) {
-	const blog = new PostModel({
+	const post = new PostModel({
 		createdOn: new Date(),
 		modifiedOn: new Date(),
 		content: data.content,
 		user: data.user,
 	});
 
-	return PostModel.create(blog);
+	return PostModel.create(post);
 }
 
 PostsStorage.prototype.update = function (id, data) {
