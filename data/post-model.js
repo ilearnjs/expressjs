@@ -2,14 +2,13 @@ const mongoose = require('mongoose');
 
 const Schema = mongoose.Schema;
 
-const blogSchema = new Schema({
-	title: String,
+const postSchema = new Schema({
 	content: String,
-	author: String,
+	user: String,
 	modifiedOn: Date,
 	createdOn: Date,
 });
 
-const BlogModel = mongoose.model('Blog', blogSchema);
+const BlogModel = mongoose.model('Blog', postSchema);
 
 module.exports = BlogModel;

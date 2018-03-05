@@ -4,10 +4,8 @@ const winston = require('winston');
 const express = require('express');
 const app = express();
 
-const blogsRoute = require('./routes/blogs');
-const indexRoute = require('./routes/index');
+const postsRoute = require('./routes/posts');
 
-app.set('view engine', 'pug');
 app.set('views', './views');
 
 app.use(expressWinston.logger({
@@ -21,14 +19,12 @@ app.use(expressWinston.logger({
 }));
 
 app.use(express.json());
-app.use('/blogs', blogsRoute);
-app.use('*', indexRoute);
+app.use('/blogs', postsRoute);
 
-app.use(function (err, req, res, next) {
-	res.status(500).send({
-		name: err.name,
-		message: err.message
-	})
+app.listen(3000, err => {
+	if(err) {
+		return console.error(err);
+	}
 });
 
 module.exports = app;

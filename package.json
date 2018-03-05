@@ -2,13 +2,13 @@
   "name": "express_js",
   "version": "1.0.0",
   "scripts": {
-    "start": "nodemon ./bin/www"
+	"start": "nodemon server.js",
+	"start-mongo": "mongod --config mongod.conf"
   },
   "dependencies": {
     "express": "^4.16.2",
     "express-winston": "^2.4.0",
     "mongoose": "^5.0.3",
-    "pug": "^2.0.0-rc.4",
     "winston": "^2.4.0"
   },
   "devDependencies": {
