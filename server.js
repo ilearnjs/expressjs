@@ -3,8 +3,14 @@ const expressWinston = require('express-winston');
 const winston = require('winston');
 const express = require('express');
 const app = express();
+const cors = require('cors');
 
 const postsRoute = require('./routes/posts');
+
+app.use(cors({
+	origin: '*',
+	credentials: true
+}));
 
 app.use(expressWinston.logger({
 	transports: [
@@ -20,7 +26,7 @@ app.use(express.json());
 app.use('/posts', postsRoute);
 
 app.listen(3000, err => {
-	if(err) {
+	if (err) {
 		return console.error(err);
 	}
 });

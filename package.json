@@ -1,18 +1,19 @@
 {
-	"name": "express_js",
-	"version": "1.0.0",
-	"scripts": {
-		"start-mongo": "mongod --config mongod.conf",
-		"start-express": "nodemon server.js",
-		"start-mongo-and-express": "npm run start-mongo & npm run start-express"
-	},
-	"dependencies": {
-		"express": "^4.16.2",
-		"express-winston": "^2.4.0",
-		"mongoose": "^5.0.3",
-		"winston": "^2.4.0"
-	},
-	"devDependencies": {
-		"nodemon": "^1.14.11"
-	}
+  "name": "express_js",
+  "version": "1.0.0",
+  "scripts": {
+    "start-mongo": "mongod --config mongod.conf",
+    "start-express": "nodemon server.js",
+    "start-mongo-and-express": "npm run start-mongo & npm run start-express"
+  },
+  "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.2",
+    "express-winston": "^2.4.0",
+    "mongoose": "^5.0.3",
+    "winston": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.14.11"
+  }
 }

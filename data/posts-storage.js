@@ -5,8 +5,8 @@ const PostsStorage = function () {
 
 PostsStorage.prototype.get = function (id) {
 	const query = id == null
-		? PostModel.find({})
-		: PostModel.findOne({ _id: id });
+		? PostModel.find({}).sort({ createdOn: -1 })
+		: PostModel.findOne({ _id: id }).sort({ createdOn: -1 });
 
 	return query.then((res, err) => {
 		return res;
@@ -14,7 +14,7 @@ PostsStorage.prototype.get = function (id) {
 }
 
 PostsStorage.prototype.getByUser = function (userName) {
-	const query = PostModel.find({ user: { name: userName } });
+	const query = PostModel.find({ user: { name: userName } }).sort({ createdOn: -1 });
 
 	return query.then((res, err) => {
 		return res;

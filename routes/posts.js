@@ -31,7 +31,7 @@ router.post('/', (req, res, next) => {
 	const data = req.body;
 	postsStorage
 		.create(data)
-		.then(() => res.sendStatus(200))
+		.then((data) => res.json(data))
 		.catch(err => next(err));
 });
 
@@ -40,7 +40,7 @@ router.put('/:id', (req, res, next) => {
 	const data = req.body;
 	postsStorage
 		.update(id, data)
-		.then(() => res.sendStatus(200));
+		.then((data) => res.json(data));
 });
 
 router.delete('/:id', (req, res, next) => {
