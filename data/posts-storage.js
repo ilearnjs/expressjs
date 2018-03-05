@@ -3,10 +3,18 @@ const PostModel = require('./post-model');
 const PostsStorage = function () {
 }
 
-PostsStorage.prototype.read = function (id) {
+PostsStorage.prototype.get = function (id) {
 	const query = id == null
 		? PostModel.find({})
 		: PostModel.findOne({ _id: id });
+
+	return query.then((res, err) => {
+		return res;
+	});
+}
+
+PostsStorage.prototype.getByUser = function (userName) {
+	const query = PostModel.find({ user: { name: userName } });
 
 	return query.then((res, err) => {
 		return res;

@@ -6,7 +6,7 @@ const postsStorage = dataStorage.posts;
 
 router.get('/', (req, res, next) => {
 	const posts = postsStorage
-		.read()
+		.get()
 		.then((data) => res.json(data))
 		.catch(err => next(err));
 });
@@ -14,7 +14,15 @@ router.get('/', (req, res, next) => {
 router.get('/:id', (req, res, next) => {
 	const id = req.params.id;
 	const post = postsStorage
-		.read(id)
+		.get(id)
+		.then((data) => res.json(data))
+		.catch(err => next(err));
+});
+
+router.get('/user/:userName', (req, res, next) => {
+	const userName = req.params.userName;
+	const post = postsStorage
+		.getByUser(userName)
 		.then((data) => res.json(data))
 		.catch(err => next(err));
 });
