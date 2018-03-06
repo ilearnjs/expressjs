@@ -6,7 +6,7 @@ const PostsStorage = function () {
 PostsStorage.prototype.get = function (id) {
 	const query = id == null
 		? PostModel.find({}).sort({ createdOn: -1 })
-		: PostModel.findOne({ _id: id }).sort({ createdOn: -1 });
+		: PostModel.findOne({ _id: id });
 
 	return query.then((res, err) => {
 		return res;
