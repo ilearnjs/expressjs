@@ -32,7 +32,7 @@ app.use(expressWinston.logger({
 
 app.use(express.json());
 app.use('/posts', postsRoute);
-app.use('/login', userRoute);
+app.use('/user', userRoute);
 
 app.listen(3000, err => {
 	if (err) {
