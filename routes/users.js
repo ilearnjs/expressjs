@@ -9,7 +9,7 @@ router.post('/signin', (req, res, next) => {
 	userStorage
 		.get(data)
 		.then((data) => res.json(data))
-		.catch(err => next(err));
+		.catch(err => res.status(500).json({ message: err.toString() }));
 });
 
 router.post('/signup', (req, res, next) => {
@@ -17,7 +17,7 @@ router.post('/signup', (req, res, next) => {
 	userStorage
 		.create(data)
 		.then((data) => res.json(data))
-		.catch(err => next(err));
+		.catch(err => res.status(500).json({ message: err.toString() }));
 });
 
 module.exports = router;

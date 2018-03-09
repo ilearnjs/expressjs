@@ -32,10 +32,6 @@ app.use(express.json());
 app.use('/posts', postsRoute);
 app.use('/user', userRoute);
 
-app.listen(3000, err => {
-	if (err) {
-		return console.error(err);
-	}
-});
+app.listen(3000);
 
 module.exports = app;

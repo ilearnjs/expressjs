@@ -24,7 +24,14 @@ UsersStorage.prototype.create = function (data) {
 		}
 	);
 
-	return UserModel.create(user);
+	return UserModel.create(user)
+		.catch(ex => {
+			if (ex.code === 11000) {
+				throw new Error(`User with name "${user.name}" already exist`);
+			}
+
+			throw new Error('Server error')
+		});
 }
 
 module.exports = UsersStorage;
