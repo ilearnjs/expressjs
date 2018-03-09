@@ -9,8 +9,6 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
-// const tokens = {};
-
 const postsRoute = require('./routes/posts');
 const userRoute = require('./routes/users');
 
