@@ -4,7 +4,7 @@ const router = express.Router();
 
 const userStorage = dataStorage.users;
 
-router.post('/login', (req, res, next) => {
+router.post('/signin', (req, res, next) => {
 	const data = req.body;
 	userStorage
 		.get(data)
