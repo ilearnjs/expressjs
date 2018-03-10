@@ -11,6 +11,7 @@ const cors = require('cors');
 
 const postsRoute = require('./routes/posts');
 const userRoute = require('./routes/users');
+const UserError = require('./models/user-error');
 
 app.use(cors({
 	origin: '*',
@@ -31,6 +32,14 @@ app.use(expressWinston.logger({
 app.use(express.json());
 app.use('/posts', postsRoute);
 app.use('/user', userRoute);
+
+app.use((err, req, res, next) => {
+	if (!(err instanceof UserError)) {
+		err = new UserError('Server error', err);
+	}
+	
+	res.status(500).json(err);
+})
 
 app.listen(3000);
 

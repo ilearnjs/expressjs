@@ -1,4 +1,5 @@
 const UserModel = require('./user-model');
+const UserError = require('./../models/user-error');
 
 const UsersStorage = function () {
 }
@@ -12,6 +13,10 @@ UsersStorage.prototype.get = function (data) {
 	);
 
 	return query.then((res, err) => {
+		if (res === null) {
+			throw new UserError(`User name/Password is incorrect`);
+		}
+
 		return res;
 	});
 }
@@ -27,10 +32,10 @@ UsersStorage.prototype.create = function (data) {
 	return UserModel.create(user)
 		.catch(ex => {
 			if (ex.code === 11000) {
-				throw new Error(`User with name "${user.name}" already exist`);
+				throw new UserError(`User with name "${user.name}" already exist`);
 			}
 
-			throw new Error('Server error')
+			throw ex;
 		});
 }
 
