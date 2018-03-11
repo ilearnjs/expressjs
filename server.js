@@ -14,8 +14,7 @@ const userRoute = require('./routes/users');
 const UserError = require('./models/user-error');
 
 app.use(cors({
-	origin: '*',
-	credentials: true
+	origin: '*'
 }));
 
 app.use(express.json());
@@ -29,7 +28,6 @@ app.use(expressWinston.logger({
 	meta: false
 }));
 
-app.use(express.json());
 app.use('/posts', postsRoute);
 app.use('/user', userRoute);
 

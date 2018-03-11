@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/posts-blog');
+const database = require('./../config').database;
+mongoose.connect(database);
 
 const PostsStorage = require('./posts-storage');
 const UsersStorage = require('./users-storage');
