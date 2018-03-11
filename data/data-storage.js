@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
 const database = require('./../config').database;
+const mongoose = require('mongoose');
 mongoose.connect(database);
 
 const PostsStorage = require('./posts-storage');

@@ -14,7 +14,7 @@ UsersStorage.prototype.get = function (data) {
 
 	return query.then((res, err) => {
 		if (res === null) {
-			throw new UserError(`User name/Password is incorrect`);
+			throw new UserError(`Incorrect Username/Password`);
 		}
 
 		return res;

@@ -1,7 +1,6 @@
-function ServerError(message, error) {
+function ServerError(message, code) {
 	this.userMessage = message || 'Server error';
-	this.stack = (new Error()).stack;
-	this.originalError = error;
+	this.code = code || 500;
 }
 
 module.exports = ServerError;

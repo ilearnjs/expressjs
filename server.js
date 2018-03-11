@@ -35,10 +35,10 @@ app.use('/api', router);
 
 app.use((err, req, res, next) => {
 	if (!(err instanceof UserError)) {
-		err = new UserError('Server error', err);
+		err = new UserError('Server error');
 	}
-	
-	res.status(500).json(err);
+
+	res.status(err.code).json(err);
 })
 
 app.listen(3000);
