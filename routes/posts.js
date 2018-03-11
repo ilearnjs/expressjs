@@ -1,4 +1,6 @@
 const express = require('express');
+
+const UnauthorizedError = require('./../models/server-error').UnauthorizedError;
 const dataStorage = require('../data/data-storage');
 const router = express.Router();
 
@@ -28,27 +30,42 @@ router.get('/user/:userName', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
+	const user = tryGetUser(req);
 	const data = req.body;
+
 	postsStorage
-		.create(data)
+		.create(data, user)
 		.then((data) => res.json(data))
 		.catch(err => next(err));
 });
 
 router.put('/:id', (req, res, next) => {
+	const user = tryGetUser(req);
 	const id = req.params.id;
 	const data = req.body;
 	postsStorage
-		.update(id, data)
-		.then((data) => res.json(data));
+		.update(id, data, user)
+		.then((data) => res.json(data))
+		.catch(err => next(err));
 });
 
 router.delete('/:id', (req, res, next) => {
+	const user = tryGetUser(req);
 	const id = req.params.id;
 	postsStorage
-		.delete(id)
+		.delete(id, user)
 		.then(() => res.sendStatus(200))
 		.catch(err => next(err));
 });
+
+function tryGetUser(req) {
+	const user = req.decodedToken && req.decodedToken.user;
+
+	if (!user) {
+		throw new UnauthorizedError();
+	}
+
+	return user;
+}
 
 module.exports = router;

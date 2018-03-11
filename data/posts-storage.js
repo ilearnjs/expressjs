@@ -1,52 +1,77 @@
+const UnauthorizedError = require('../models/server-error').UnauthorizedError;
+const GoneError = require('../models/server-error').GoneError;
 const PostModel = require('./post-model');
 
 const PostsStorage = function () {
 }
 
-PostsStorage.prototype.get = function (id) {
-	const query = id == null
-		? PostModel.find({}).sort({ createdOn: -1 })
-		: PostModel.findOne({ _id: id });
+PostsStorage.prototype.get = function () {
+	return PostModel.find({}).sort({ createdOn: -1 })
+		.then(posts => {
+			return posts;
+		});
+}
 
-	return query.then((res, err) => {
-		return res;
-	});
+PostsStorage.prototype.getById = function (id) {
+	return PostModel.findById(id)
+		.then(post => {
+			if (!post) {
+				throw new GoneError();
+			}
+
+			return post;
+		});
 }
 
 PostsStorage.prototype.getByUser = function (userName) {
-	const query = PostModel.find({ user: { name: userName } }).sort({ createdOn: -1 });
-
-	return query.then((res, err) => {
-		return res;
-	});
+	return PostModel.find({ user: { name: userName } }).sort({ createdOn: -1 })
+		.then(posts => {
+			return posts;
+		});
 }
 
-PostsStorage.prototype.create = function (data) {
+PostsStorage.prototype.create = function (data, user) {
 	const post = new PostModel({
 		createdOn: new Date(),
 		modifiedOn: new Date(),
 		content: data.content,
-		user: data.user,
+		user: user,
 	});
 
 	return PostModel.create(post);
 }
 
-PostsStorage.prototype.update = function (id, data) {
-	return PostModel.findOneAndUpdate(
-		{
-			_id: id,
-		},
-		{
-			modifiedOn: new Date(),
-			content: data.content,
-			user: data.user,
-		}
-	);
+PostsStorage.prototype.update = function (id, data, user) {
+	return PostModel.findById(id)
+		.then(post => {
+			if (!post) {
+				throw new GoneError();
+			}
+
+			if (post.user.name !== user.name) {
+				throw new UnauthorizedError();
+			}
+
+			return post.update({
+				modifiedOn: new Date(),
+				content: data.content,
+			});
+		});
 }
 
-PostsStorage.prototype.delete = function (id) {
-	return PostModel.findOneAndRemove({ _id: id });
+PostsStorage.prototype.delete = function (id, user) {
+	return PostModel.findById(id)
+		.then(post => {
+			if (!post) {
+				throw new GoneError();
+			}
+
+			if (post.user.name !== user.name) {
+				throw new UnauthorizedError();
+			}
+
+			return post.remove();
+		});
 }
 
 module.exports = PostsStorage;

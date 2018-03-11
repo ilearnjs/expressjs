@@ -9,9 +9,13 @@ const express = require('express');
 const app = express();
 const cors = require('cors');
 
+const ServerError = require('./models/server-error').ServerError;
+
+const tokenVerification = require('./middlewares/tokenVerification');
 const postsRoute = require('./routes/posts');
 const userRoute = require('./routes/users');
-const UserError = require('./models/user-error');
+
+
 
 app.use(cors({
 	origin: '*'
@@ -29,13 +33,14 @@ app.use(expressWinston.logger({
 }));
 
 const router = express.Router();
-router.use('/posts', postsRoute);
+router.use(tokenVerification);
 router.use('/user', userRoute);
+router.use('/posts', postsRoute);
 app.use('/api', router);
 
 app.use((err, req, res, next) => {
-	if (!(err instanceof UserError)) {
-		err = new UserError('Server error');
+	if (!(err instanceof ServerError)) {
+		err = new ServerError('Server error');
 	}
 
 	res.status(err.code).json(err);
