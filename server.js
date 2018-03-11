@@ -28,8 +28,10 @@ app.use(expressWinston.logger({
 	meta: false
 }));
 
-app.use('/posts', postsRoute);
-app.use('/user', userRoute);
+const router = express.Router();
+router.use('/posts', postsRoute);
+router.use('/user', userRoute);
+app.use('/api', router);
 
 app.use((err, req, res, next) => {
 	if (!(err instanceof UserError)) {
