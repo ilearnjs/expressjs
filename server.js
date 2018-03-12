@@ -8,6 +8,7 @@ const jwt = require('jsonwebtoken');
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 
 const ServerError = require('./models/server-error').ServerError;
 
@@ -18,9 +19,10 @@ const userRoute = require('./routes/users');
 
 
 app.use(cors({
-	origin: '*'
+	origin: 'http://localhost:8080', credentials: true
 }));
 
+app.use(cookieParser());
 app.use(express.json());
 
 app.use(expressWinston.logger({

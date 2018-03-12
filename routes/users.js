@@ -12,7 +12,7 @@ router.post('/signin', (req, res, next) => {
 	const data = req.body;
 	userStorage
 		.get(data)
-		.then((data) => res.json(generateToken(data)))
+		.then((data) => res.json(getResponse(res, data)))
 		.catch(err => next(err));
 });
 
@@ -20,11 +20,17 @@ router.post('/signup', (req, res, next) => {
 	const data = req.body;
 	userStorage
 		.create(data)
-		.then((data) => res.json(generateToken(data)))
+		.then((data) => res.json(getResponse(res, data)))
 		.catch(err => next(err));
 });
 
-function generateToken(user) {
+router.post('/signout', (req, res, next) => {
+	res.clearCookie('token');
+	res.clearCookie('user.name');
+	res.sendStatus(200);
+});
+
+function getResponse(res, user) {
 	const payload = {
 		user: {
 			id: user._id,
@@ -36,8 +42,10 @@ function generateToken(user) {
 		expiresIn: 24 * 60 * 60 // seconds
 	});
 
+	res.cookie('token', token, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+	res.cookie('user.name', user.name, { maxAge: 24 * 60 * 60 * 1000, httpOnly: true });
+
 	return {
-		token,
 		user: {
 			name: user.name
 		}

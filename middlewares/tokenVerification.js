@@ -4,21 +4,21 @@ const UnauthorizedError = require('./../models/server-error').UnauthorizedError;
 const secret = require('./../config').secret;
 
 const tokenVerifiaction = function (req, res, next) {
-	var token = req.headers['authorization'];
+	var token = req.cookies.token;
 
 	if (token) {
-		jwt.verify(token, secret, (err, decodedToken) => {
-			if (err) {
-				if (err.name === 'TokenExpiredError') {
-					throw new UnauthorizedError('Expired token');
-				}
-
-				throw new UnauthorizedError('Invalid token');
-			} else {
-				req.decodedToken = decodedToken;
+		try {
+			const decodedToken = jwt.verify(token, secret);
+			req.decodedToken = decodedToken;
+		} catch (err) {
+			if (err.name === 'TokenExpiredError') {
+				throw new UnauthorizedError('Expired token');
 			}
-		});
+
+			throw new UnauthorizedError('Invalid token');
+		}
 	}
+
 	next();
 }
 
