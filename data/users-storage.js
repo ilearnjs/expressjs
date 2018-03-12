@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const UserModel = require('./user-model');
 const ServerError = require('./../models/server-error').ServerError;
 
@@ -7,13 +9,12 @@ const UsersStorage = function () {
 UsersStorage.prototype.get = function (data) {
 	const query = UserModel.findOne(
 		{
-			name: data.userName,
-			password: data.password
+			name: data.userName
 		}
 	);
 
 	return query.then((res, err) => {
-		if (res === null) {
+		if (res === null || !bcrypt.compareSync(data.password, res.password)) {
 			throw new ServerError(`Incorrect Username/Password`);
 		}
 
@@ -25,7 +26,7 @@ UsersStorage.prototype.create = function (data) {
 	const user = new UserModel(
 		{
 			name: data.userName,
-			password: data.password
+			password: bcrypt.hashSync(data.password, 8)
 		}
 	);
 
